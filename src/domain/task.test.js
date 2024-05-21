@@ -36,6 +36,15 @@ describe("normaliseTask", () => {
     });
   });
 
+  it("reads the API's 'In progress' enum key as in progress", () => {
+    const task = normaliseTask({
+      id: "4",
+      type: "task",
+      attributes: { id: 4, title: "Ship", status: "In progress", priority: "low" },
+    });
+    expect(task.status).toBe(TaskStatus.IN_PROGRESS);
+  });
+
   it("accepts the flat rows the demo repository stores", () => {
     const task = normaliseTask({ id: "3", title: "Flat", status: "completed" });
     expect(task.id).toBe("3");

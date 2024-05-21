@@ -3,8 +3,9 @@ import { parseDay } from "domain/day";
 /**
  * The task vocabulary, in one place.
  *
- * The REST API is asymmetric: it *returns* statuses as snake_case strings and
- * *accepts* them as small integers, so the mapping lives here and nowhere else.
+ * The REST API is asymmetric: it *returns* statuses as the Rails enum keys
+ * ("pending", "In progress", "completed") and *accepts* them as small
+ * integers, so both mappings live here and nowhere else.
  */
 
 export const TaskStatus = Object.freeze({
@@ -24,6 +25,11 @@ const STATUS_TO_CODE = Object.freeze({
   [TaskStatus.PENDING]: 0,
   [TaskStatus.IN_PROGRESS]: 1,
   [TaskStatus.COMPLETED]: 2,
+});
+
+/** Enum keys as the API serialises them, for the ones that differ from ours. */
+const STATUS_FROM_WIRE = Object.freeze({
+  "In progress": TaskStatus.IN_PROGRESS,
 });
 
 const STATUS_LABELS = Object.freeze({
@@ -78,7 +84,9 @@ export const normaliseTask = (raw) => {
   const id = source.id ?? raw.id;
   if (id === undefined || id === null) return null;
 
-  const status = isValidStatus(source.status) ? source.status : TaskStatus.PENDING;
+  const status = isValidStatus(source.status)
+    ? source.status
+    : (STATUS_FROM_WIRE[source.status] ?? TaskStatus.PENDING);
   const priority = isValidPriority(source.priority)
     ? source.priority
     : TaskPriority.LOW;
