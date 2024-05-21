@@ -1,13 +1,5 @@
 import { useState } from "react";
-import {
-  Box,
-  Button,
-  Chip,
-  InputBase,
-  Paper,
-  Tooltip,
-  Typography,
-} from "@mui/material";
+import { Box, Button, Chip, InputBase, Paper, Typography } from "@mui/material";
 import { AutoAwesomeRounded as AutoAwesomeRoundedIcon } from "@mui/icons-material";
 
 import { palette } from "theme";
@@ -51,13 +43,16 @@ export const QuickCapture = ({ onDraft }) => {
     <Paper sx={{ p: 2.25 }}>
       <Box sx={{ display: "flex", alignItems: "center", gap: 1, mb: 1.25 }}>
         <AutoAwesomeRoundedIcon sx={{ fontSize: 17, color: palette.brand }} />
-        <Typography variant="subtitle1">Quick capture</Typography>
-        <Tooltip title="Dates, priorities and a trailing description are pulled out of the sentence">
-          <Typography variant="caption" sx={{ cursor: "help" }}>
-            how does this work?
-          </Typography>
-        </Tooltip>
+        <Typography variant="subtitle1" component="h2">
+          Quick capture
+        </Typography>
       </Box>
+      <Typography id="quick-capture-hint" variant="body2" sx={{ mb: 1.25 }}>
+        Type one line. A date (<code>tomorrow</code>, <code>next friday</code>), a
+        priority (<code>!high</code>, <code>p1</code>) and anything after <code>-</code>{" "}
+        become the deadline, priority and description. You confirm the draft before it
+        is saved.
+      </Typography>
 
       <Box
         component="form"
@@ -81,7 +76,10 @@ export const QuickCapture = ({ onDraft }) => {
           value={text}
           onChange={(event) => setText(event.target.value)}
           placeholder="Ship the changelog by next Friday !high"
-          inputProps={{ "aria-label": "Describe a task in plain language" }}
+          inputProps={{
+            "aria-label": "Describe a task in plain language",
+            "aria-describedby": "quick-capture-hint",
+          }}
           sx={{ flex: 1, fontSize: "0.9375rem", py: 0.75 }}
         />
         <Button

@@ -68,11 +68,13 @@ export const AuthPage = ({ isSignIn = false }) => {
         >
           <CheckRoundedIcon sx={{ fontSize: 20 }} />
         </Box>
-        <Typography variant="h2">Task Vault</Typography>
+        <Typography variant="h2" component="p">
+          Task Vault
+        </Typography>
       </Box>
 
       <Paper sx={{ width: "100%", maxWidth: 420, p: { xs: 3, sm: 4 } }}>
-        <Typography variant="h2" sx={{ mb: 0.5 }}>
+        <Typography variant="h2" component="h1" sx={{ mb: 0.5 }}>
           {isSignIn ? "Sign in" : "Create an account"}
         </Typography>
         <Typography variant="body2" sx={{ mb: 3 }}>

@@ -68,6 +68,7 @@ export const Header = () => {
               }}
             >
               <Avatar
+                aria-hidden="true"
                 sx={{
                   width: 30,
                   height: 30,

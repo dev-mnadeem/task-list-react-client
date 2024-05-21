@@ -90,7 +90,9 @@ describe("TaskList", () => {
     });
 
     await userEvent.click(
-      screen.getByLabelText("Change status of Renew the TLS certificate")
+      screen.getByRole("button", {
+        name: "Renew the TLS certificate: pending. Mark as in progress",
+      })
     );
 
     expect(onStatusChange).toHaveBeenCalledWith(

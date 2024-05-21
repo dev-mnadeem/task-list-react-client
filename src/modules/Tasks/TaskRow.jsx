@@ -33,6 +33,7 @@ export const TaskRow = ({ task, onEdit, onDelete, onStatusChange, isLast }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const { color, Icon } = statusStyle(task.status);
   const done = task.status === TaskStatus.COMPLETED;
+  const next = nextStatus(task.status);
 
   const close = () => setAnchorEl(null);
 
@@ -49,11 +50,11 @@ export const TaskRow = ({ task, onEdit, onDelete, onStatusChange, isLast }) => {
         "&:hover": { backgroundColor: "#FAFBFD" },
       }}
     >
-      <Tooltip title={`Mark as ${statusLabel(nextStatus(task.status))}`}>
+      <Tooltip title={`Mark as ${statusLabel(next).toLowerCase()}`}>
         <IconButton
           size="small"
-          aria-label={`Change status of ${task.title}`}
-          onClick={() => onStatusChange(task, nextStatus(task.status))}
+          aria-label={`${task.title}: ${statusLabel(task.status).toLowerCase()}. Mark as ${statusLabel(next).toLowerCase()}`}
+          onClick={() => onStatusChange(task, next)}
           sx={{ color }}
         >
           <Icon sx={{ fontSize: 21 }} />
@@ -63,6 +64,7 @@ export const TaskRow = ({ task, onEdit, onDelete, onStatusChange, isLast }) => {
       <Box sx={{ flex: 1, minWidth: 0 }}>
         <Typography
           variant="subtitle1"
+          component="p"
           sx={{
             color: done ? palette.inkFaint : palette.ink,
             textDecoration: done ? "line-through" : "none",
@@ -85,6 +87,9 @@ export const TaskRow = ({ task, onEdit, onDelete, onStatusChange, isLast }) => {
             {task.description}
           </Typography>
         )}
+        <Box sx={{ display: { xs: "block", sm: "none" }, mt: 0.5 }}>
+          <DueDate value={task.deadline} completed={done} />
+        </Box>
       </Box>
 
       <Box sx={{ width: 92, display: { xs: "none", md: "block" } }}>

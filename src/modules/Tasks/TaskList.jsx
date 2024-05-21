@@ -21,7 +21,9 @@ const Header = ({ total, shown }) => (
       borderBottom: `1px solid ${palette.border}`,
     }}
   >
-    <Typography variant="overline">Tasks</Typography>
+    <Typography variant="overline" component="h2">
+      Tasks
+    </Typography>
     <Typography variant="caption">
       {total === 0 ? "nothing to show" : `showing ${shown} of ${total}`}
     </Typography>
