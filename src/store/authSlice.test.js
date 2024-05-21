@@ -1,5 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
 
+import authRepository from "services/auth";
 import { AUTH_TOKEN_KEY } from "services/http/httpClient";
 import authReducer, {
   selectIsAuthenticated,
@@ -11,6 +12,7 @@ import authReducer, {
 const makeStore = () => configureStore({ reducer: { auth: authReducer } });
 
 beforeEach(() => window.localStorage.clear());
+afterEach(() => jest.restoreAllMocks());
 
 describe("authSlice", () => {
   it("starts signed out", () => {
@@ -47,5 +49,28 @@ describe("authSlice", () => {
 
     expect(selectIsAuthenticated(store.getState())).toBe(false);
     expect(store.getState().auth.error).toMatch(/session expired/i);
+  });
+
+  it("marks an explicit sign out so demo mode does not sign straight back in", async () => {
+    const store = makeStore();
+    await store.dispatch(signIn({ email: "ada@example.com", password: "whatever" }));
+
+    await store.dispatch(signOut());
+
+    expect(store.getState().auth.status).toBe("signedOut");
+    expect(store.getState().auth.error).toBeNull();
+  });
+
+  it("ends the local session without an error when the server logout fails", async () => {
+    const store = makeStore();
+    await store.dispatch(signIn({ email: "ada@example.com", password: "whatever" }));
+    jest.spyOn(authRepository, "signOut").mockRejectedValue(new Error("offline"));
+
+    await store.dispatch(signOut());
+
+    expect(selectIsAuthenticated(store.getState())).toBe(false);
+    expect(store.getState().auth.status).toBe("signedOut");
+    expect(store.getState().auth.error).toBeNull();
+    expect(window.localStorage.getItem(AUTH_TOKEN_KEY)).toBeNull();
   });
 });

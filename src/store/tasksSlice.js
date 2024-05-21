@@ -4,6 +4,7 @@ import config from "config";
 import { applyQuery, defaultQuery, paginate, summarise } from "domain/taskQuery";
 import { describeError } from "services/http/httpClient";
 import { resolveTaskRepository } from "services/tasks";
+import { sessionExpired, signOut } from "store/authSlice";
 
 const withRepository = (handler) => async (arg, thunkApi) => {
   try {
@@ -87,7 +88,13 @@ const tasksSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
+    // The next person to sign in must not see the previous board or filters.
+    const clear = () => ({ ...initialState, query: { ...defaultQuery } });
+
     builder
+      .addCase(signOut.fulfilled, clear)
+      .addCase(signOut.rejected, clear)
+      .addCase(sessionExpired, clear)
       .addCase(fetchTasks.pending, (state) => {
         state.status = "loading";
         state.error = null;

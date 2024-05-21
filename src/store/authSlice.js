@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, isPending, isRejected } from "@reduxjs/toolkit";
 
 import authRepository from "services/auth";
 import { describeError, writeToken } from "services/http/httpClient";
@@ -41,9 +41,12 @@ export const signOut = createAsyncThunk("auth/signOut", async () => {
 const initialState = {
   user: null,
   token: null,
-  status: "idle", // idle | loading | ready | failed
+  status: "idle", // idle | loading | ready | failed | signedOut
   error: null,
 };
+
+/** An explicit sign-out, which demo mode must not undo by signing back in. */
+const signedOutState = { ...initialState, status: "signedOut" };
 
 const authSlice = createSlice({
   name: "auth",
@@ -69,24 +72,19 @@ const authSlice = createSlice({
     builder
       .addCase(signIn.fulfilled, succeed)
       .addCase(signUp.fulfilled, succeed)
-      .addCase(signOut.fulfilled, () => ({ ...initialState }))
-      .addMatcher(
-        (action) => action.type.startsWith("auth/") && action.type.endsWith("/pending"),
-        (state) => {
-          state.status = "loading";
-          state.error = null;
-        }
-      )
-      .addMatcher(
-        (action) =>
-          action.type.startsWith("auth/") && action.type.endsWith("/rejected"),
-        (state, action) => {
-          state.status = "failed";
-          state.error = action.payload ?? "Authentication failed.";
-          state.user = null;
-          state.token = null;
-        }
-      );
+      // The local session ends even when the server-side logout fails.
+      .addCase(signOut.fulfilled, () => ({ ...signedOutState }))
+      .addCase(signOut.rejected, () => ({ ...signedOutState }))
+      .addMatcher(isPending(signIn, signUp), (state) => {
+        state.status = "loading";
+        state.error = null;
+      })
+      .addMatcher(isRejected(signIn, signUp), (state, action) => {
+        state.status = "failed";
+        state.error = action.payload ?? "Authentication failed.";
+        state.user = null;
+        state.token = null;
+      });
   },
 });
 

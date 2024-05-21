@@ -2,6 +2,7 @@ import { configureStore } from "@reduxjs/toolkit";
 
 import { TaskPriority, TaskStatus } from "domain/task";
 import { setTaskRepository } from "services/tasks";
+import { sessionExpired, signOut } from "store/authSlice";
 import tasksReducer, {
   changeTaskStatus,
   clearQuery,
@@ -167,5 +168,24 @@ describe("selectors", () => {
     expect(selectVisibleTasks(store.getState())).toHaveLength(1);
     expect(selectSummary(store.getState()).total).toBe(2);
     expect(selectPage(store.getState())).toMatchObject({ page: 1, total: 1 });
+  });
+});
+
+describe("ending a session", () => {
+  it.each([
+    ["sign out", signOut.fulfilled(undefined, "req")],
+    ["a failed sign out", signOut.rejected(new Error("offline"), "req")],
+    ["an expired session", sessionExpired()],
+  ])("clears the board and the filters after %s", async (_, action) => {
+    setTaskRepository(stubRepository());
+    const store = makeStore();
+    await store.dispatch(fetchTasks());
+    store.dispatch(setQuery({ search: "alpha" }));
+
+    store.dispatch(action);
+
+    expect(store.getState().tasks.items).toEqual([]);
+    expect(store.getState().tasks.status).toBe("idle");
+    expect(store.getState().tasks.query.search).toBe("");
   });
 });

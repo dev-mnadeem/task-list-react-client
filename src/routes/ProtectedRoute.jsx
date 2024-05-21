@@ -13,15 +13,17 @@ import TaskRowSkeleton from "components/shared/TaskRowSkeleton";
  *
  * In demo mode there is no backend to authenticate against, so the guard opens
  * a demo session itself rather than bouncing a first-time visitor to a sign-in
- * form that would accept anything. With a real API configured it redirects.
+ * form that would accept anything. After an explicit sign-out, and always with
+ * a real API configured, it redirects to the sign-in form.
  */
 export const ProtectedRoute = () => {
   const dispatch = useDispatch();
   const isAuthenticated = useSelector(selectIsAuthenticated);
   const authStatus = useSelector(selectAuthStatus);
 
+  const signedOut = authStatus === "signedOut";
   const shouldAutoSignIn =
-    config.demoMode && !isAuthenticated && authStatus !== "loading";
+    config.demoMode && !isAuthenticated && !signedOut && authStatus !== "loading";
 
   useEffect(() => {
     if (shouldAutoSignIn) {
@@ -30,7 +32,7 @@ export const ProtectedRoute = () => {
   }, [dispatch, shouldAutoSignIn]);
 
   if (isAuthenticated) return <Outlet />;
-  if (config.demoMode) return <TaskRowSkeleton rows={4} />;
+  if (config.demoMode && !signedOut) return <TaskRowSkeleton rows={4} />;
   return <Navigate to="/login" replace />;
 };
 

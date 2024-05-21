@@ -15,25 +15,26 @@ import { setUnauthorizedHandler } from "services/http/httpClient";
 import authReducer, { sessionExpired } from "store/authSlice";
 import tasksReducer from "store/tasksSlice";
 
+/**
+ * Only the session itself is persisted. Tasks are re-fetched on mount so a
+ * stale board is never shown as if it were live, and request status is left
+ * out so a reload mid-request cannot leave the app stuck on "loading".
+ */
+const authPersistConfig = {
+  key: "task-vault:auth",
+  version: 1,
+  storage,
+  whitelist: ["user", "token"],
+};
+
 const rootReducer = combineReducers({
-  auth: authReducer,
+  auth: persistReducer(authPersistConfig, authReducer),
   tasks: tasksReducer,
 });
 
-/**
- * Only the session is persisted. Tasks are re-fetched on mount so a stale
- * board is never shown as if it were live.
- */
-const persistConfig = {
-  key: "task-vault",
-  version: 1,
-  storage,
-  whitelist: ["auth"],
-};
-
 export const createAppStore = (preloadedState) =>
   configureStore({
-    reducer: persistReducer(persistConfig, rootReducer),
+    reducer: rootReducer,
     preloadedState,
     middleware: (getDefaultMiddleware) =>
       getDefaultMiddleware({
