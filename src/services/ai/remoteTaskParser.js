@@ -47,7 +47,7 @@ export const remoteTaskParser = {
     const response = await axios.post(
       config.ai.endpoint,
       {
-        model: process.env.REACT_APP_AI_MODEL || "gpt-4o-mini",
+        model: config.ai.model,
         temperature: 0,
         response_format: { type: "json_object" },
         messages: [

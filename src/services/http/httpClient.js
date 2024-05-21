@@ -34,10 +34,9 @@ export const writeToken = (token) => {
 /**
  * One axios instance for the whole app.
  *
- * Previously each verb re-declared the same headers and the same 401/403 block,
- * and three of the five swallowed the rejection — callers received `undefined`
- * and then crashed reading `.status` off it. Interceptors do it once and always
- * re-reject, so failures reach the thunk that asked for them.
+ * The interceptors attach the token and handle 401/403 in one place, and they
+ * always re-reject so a failure reaches the thunk that asked for it rather than
+ * resolving to `undefined`.
  */
 export const httpClient = axios.create({
   baseURL: config.apiBaseUrl || undefined,

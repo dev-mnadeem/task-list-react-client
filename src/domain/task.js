@@ -4,8 +4,7 @@ import { parseDay } from "domain/day";
  * The task vocabulary, in one place.
  *
  * The REST API is asymmetric: it *returns* statuses as snake_case strings and
- * *accepts* them as small integers. That asymmetry used to be spelled out as
- * bare `0` / `1` / `2` at three call sites. It is encoded here instead.
+ * *accepts* them as small integers, so the mapping lives here and nowhere else.
  */
 
 export const TaskStatus = Object.freeze({

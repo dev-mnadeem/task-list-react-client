@@ -33,6 +33,7 @@ export const config = Object.freeze({
     provider: (process.env.REACT_APP_AI_PROVIDER ?? "local").trim() || "local",
     endpoint: (process.env.REACT_APP_AI_ENDPOINT ?? "").trim(),
     apiKey: (process.env.REACT_APP_AI_API_KEY ?? "").trim(),
+    model: (process.env.REACT_APP_AI_MODEL ?? "").trim() || "gpt-4o-mini",
   }),
   ui: Object.freeze({
     /** Rows rendered per page before the list paginates. */
