@@ -1,6 +1,6 @@
 import { Box, Paper, Typography } from "@mui/material";
 
-import { palette } from "theme";
+import { DISPLAY, palette } from "theme";
 import { TaskStatus } from "domain/task";
 
 const CARDS = [
@@ -24,7 +24,8 @@ export const SummaryCards = ({ summary }) => (
         <Typography
           sx={{
             mt: 0.5,
-            fontSize: "1.625rem",
+            fontFamily: DISPLAY,
+            fontSize: "1.75rem",
             fontWeight: 700,
             lineHeight: 1.1,
             letterSpacing: "-0.02em",

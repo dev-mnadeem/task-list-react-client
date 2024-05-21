@@ -42,7 +42,7 @@ export const QuickCapture = ({ onDraft }) => {
   return (
     <Paper sx={{ p: 2.25 }}>
       <Box sx={{ display: "flex", alignItems: "center", gap: 1, mb: 1.25 }}>
-        <AutoAwesomeRoundedIcon sx={{ fontSize: 17, color: palette.brand }} />
+        <AutoAwesomeRoundedIcon sx={{ fontSize: 17, color: palette.brass }} />
         <Typography variant="subtitle1" component="h2">
           Quick capture
         </Typography>
@@ -64,7 +64,7 @@ export const QuickCapture = ({ onDraft }) => {
           display: "flex",
           alignItems: "center",
           gap: 1,
-          border: `1px solid ${palette.border}`,
+          border: `1px solid ${palette.inputBorder}`,
           borderRadius: 2.5,
           px: 1.75,
           py: 0.5,

@@ -11,7 +11,7 @@ import { statusLabel, TaskPriority, TaskStatus } from "domain/task";
 const STATUS_STYLE = {
   [TaskStatus.PENDING]: {
     color: palette.inkMuted,
-    bg: "#EEF0F5",
+    bg: palette.neutralSoft,
     Icon: RadioButtonUncheckedRoundedIcon,
   },
   [TaskStatus.IN_PROGRESS]: {
@@ -29,7 +29,7 @@ const STATUS_STYLE = {
 const PRIORITY_STYLE = {
   [TaskPriority.HIGH]: { color: palette.danger, bg: palette.dangerSoft },
   [TaskPriority.MEDIUM]: { color: palette.warning, bg: palette.warningSoft },
-  [TaskPriority.LOW]: { color: palette.inkMuted, bg: "#EEF0F5" },
+  [TaskPriority.LOW]: { color: palette.inkMuted, bg: palette.neutralSoft },
 };
 
 export const statusStyle = (status) =>

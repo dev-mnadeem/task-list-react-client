@@ -49,7 +49,7 @@ export const Header = () => {
                 display: "grid",
                 placeItems: "center",
                 backgroundColor: palette.brand,
-                color: "#fff",
+                color: palette.brassLight,
               }}
             >
               <CheckRoundedIcon sx={{ fontSize: 19 }} />

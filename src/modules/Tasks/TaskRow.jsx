@@ -47,7 +47,7 @@ export const TaskRow = ({ task, onEdit, onDelete, onStatusChange, isLast }) => {
         py: 1.75,
         borderBottom: isLast ? "none" : `1px solid ${palette.border}`,
         transition: "background-color 120ms ease",
-        "&:hover": { backgroundColor: "#FAFBFD" },
+        "&:hover": { backgroundColor: palette.hover },
       }}
     >
       <Tooltip title={`Mark as ${statusLabel(next).toLowerCase()}`}>

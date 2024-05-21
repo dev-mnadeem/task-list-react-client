@@ -56,7 +56,7 @@ export const describeDeadline = (value, now = new Date()) => {
 const TONE = {
   overdue: { color: palette.danger, bg: palette.dangerSoft },
   urgent: { color: palette.warning, bg: palette.warningSoft },
-  soon: { color: palette.inkMuted, bg: "#EEF0F5" },
+  soon: { color: palette.inkMuted, bg: palette.neutralSoft },
   normal: { color: palette.inkMuted, bg: "transparent" },
   muted: { color: palette.inkFaint, bg: "transparent" },
 };

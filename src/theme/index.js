@@ -4,32 +4,42 @@ import { createTheme } from "@mui/material/styles";
  * One palette, one type scale, one radius.
  *
  * Colours are named by role rather than by hue so a component never reaches for
- * a raw hex. The accents are the only saturated colours on the page: everything
- * structural is drawn from the slate ramp.
+ * a raw hex. A vault is paper, ledger green and brass: a warm paper canvas,
+ * deep pine for anything you can act on, and brass for the mark and the one
+ * "magic" control. Every text pairing clears WCAG AA (4.5:1); `inputBorder`
+ * clears the 3:1 that form-field outlines need.
  */
 export const palette = {
-  canvas: "#F5F6FA",
+  canvas: "#F4F1EA",
   surface: "#FFFFFF",
-  border: "#E4E7EF",
-  borderStrong: "#CBD2E0",
-  ink: "#101828",
-  inkMuted: "#5B6478",
-  inkFaint: "#8A93A6",
-  brand: "#4B49D6",
-  brandDark: "#3A38B8",
-  brandSoft: "#EEEEFB",
-  success: "#127A48",
-  successSoft: "#E3F5EC",
-  warning: "#A35A07",
-  warningSoft: "#FDF0DF",
-  danger: "#B3261E",
-  dangerSoft: "#FCEBEA",
-  info: "#0F5F96",
-  infoSoft: "#E4F1FA",
+  hover: "#FAF8F3",
+  neutralSoft: "#ECE9E1",
+  border: "#E2DED3",
+  borderStrong: "#C2BBA9",
+  inputBorder: "#878173",
+  ink: "#17211E",
+  inkMuted: "#4A5550",
+  inkFaint: "#5F6A65",
+  brand: "#1D5A4B",
+  brandDark: "#14443A",
+  brandSoft: "#E2EDE7",
+  brass: "#9C6A1C",
+  brassLight: "#F0D49A",
+  success: "#2B6E45",
+  successSoft: "#E1F0E6",
+  warning: "#8A4F00",
+  warningSoft: "#FBEEDC",
+  danger: "#AE2A20",
+  dangerSoft: "#FBE9E7",
+  info: "#1E5B87",
+  infoSoft: "#E3EEF6",
 };
 
 const SANS =
-  '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif';
+  '"Public Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, sans-serif';
+
+/** Headings and figures; loaded from Google Fonts in index.html. */
+export const DISPLAY = `"Bricolage Grotesque", ${SANS}`;
 
 export const RADIUS = 12;
 
@@ -51,21 +61,28 @@ export const theme = createTheme({
   shape: { borderRadius: RADIUS },
   typography: {
     fontFamily: SANS,
-    // A real scale: 30 / 20 / 16 / 14 / 13 / 12, each with its own weight and
+    // A real scale: 32 / 21 / 17 / 15 / 13 / 12, each with its own weight and
     // tracking rather than browser defaults.
     h1: {
-      fontSize: "1.875rem",
+      fontFamily: DISPLAY,
+      fontSize: "2rem",
       fontWeight: 700,
-      letterSpacing: "-0.02em",
-      lineHeight: 1.2,
+      letterSpacing: "-0.025em",
+      lineHeight: 1.15,
     },
     h2: {
-      fontSize: "1.25rem",
+      fontFamily: DISPLAY,
+      fontSize: "1.3125rem",
       fontWeight: 650,
-      letterSpacing: "-0.01em",
+      letterSpacing: "-0.015em",
       lineHeight: 1.3,
     },
-    h3: { fontSize: "1rem", fontWeight: 650, lineHeight: 1.4 },
+    h3: {
+      fontFamily: DISPLAY,
+      fontSize: "1.0625rem",
+      fontWeight: 650,
+      lineHeight: 1.4,
+    },
     subtitle1: { fontSize: "0.9375rem", fontWeight: 600, lineHeight: 1.45 },
     subtitle2: { fontSize: "0.8125rem", fontWeight: 600, color: palette.inkMuted },
     body1: { fontSize: "0.9375rem", lineHeight: 1.6 },
@@ -107,8 +124,8 @@ export const theme = createTheme({
         root: {
           borderRadius: 10,
           backgroundColor: palette.surface,
-          "& fieldset": { borderColor: palette.border },
-          "&:hover fieldset": { borderColor: palette.borderStrong },
+          "& fieldset": { borderColor: palette.inputBorder },
+          "&:hover fieldset": { borderColor: palette.ink },
         },
         input: { fontSize: "0.9375rem" },
       },
