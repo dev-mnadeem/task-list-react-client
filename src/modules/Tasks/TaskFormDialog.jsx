@@ -9,7 +9,8 @@ import {
 } from "@mui/material";
 import { Form, Formik } from "formik";
 
-import { DeadlineField, FormTextField, PrioritySelect } from "components/shared/fields";
+import DeadlineField from "components/shared/DeadlineField";
+import { FormTextField, PrioritySelect } from "components/shared/fields";
 import { emptyTaskForm, taskFormSchema } from "modules/Tasks/taskFormSchema";
 
 /**

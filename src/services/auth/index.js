@@ -9,6 +9,9 @@ const DEMO_USER = Object.freeze({
 
 const DEMO_TOKEN = "demo-session-token";
 
+/** Any well-formed password works in demo mode; this one passes validation. */
+const DEMO_PASSWORD = "demo-password";
+
 /**
  * Both implementations resolve to `{ user, token }`.
  *
@@ -59,5 +62,5 @@ const demoAuthRepository = {
 
 export const authRepository = config.demoMode ? demoAuthRepository : apiAuthRepository;
 
-export { DEMO_USER, DEMO_TOKEN };
+export { DEMO_USER, DEMO_TOKEN, DEMO_PASSWORD };
 export default authRepository;

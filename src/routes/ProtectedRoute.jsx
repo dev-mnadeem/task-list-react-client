@@ -3,9 +3,8 @@ import { Navigate, Outlet } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
 import config from "config";
-import { DEMO_USER } from "services/auth";
+import { DEMO_PASSWORD, DEMO_USER } from "services/auth";
 import { selectAuthStatus, selectIsAuthenticated, signIn } from "store/authSlice";
-import { DEMO_PASSWORD } from "modules/Authorization";
 import TaskRowSkeleton from "components/shared/TaskRowSkeleton";
 
 /**

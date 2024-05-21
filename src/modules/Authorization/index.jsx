@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 import config from "config";
 import { palette } from "theme";
 import { FormTextField } from "components/shared/fields";
-import { DEMO_USER } from "services/auth";
+import { DEMO_PASSWORD, DEMO_USER } from "services/auth";
 import {
   selectAuthError,
   selectAuthStatus,
@@ -17,8 +17,6 @@ import {
   signUp,
 } from "store/authSlice";
 import { schemaFor } from "modules/Authorization/validationSchema";
-
-const DEMO_PASSWORD = "demo-password";
 
 const initialValues = {
   firstName: "",
@@ -191,5 +189,4 @@ export const AuthPage = ({ isSignIn = false }) => {
   );
 };
 
-export { DEMO_PASSWORD };
 export default AuthPage;

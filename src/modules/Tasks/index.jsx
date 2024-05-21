@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { lazy, Suspense, useCallback, useEffect, useMemo, useState } from "react";
 import { Box, Typography } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
@@ -6,7 +6,6 @@ import { toast } from "react-toastify";
 import FilterBar from "modules/Tasks/FilterBar";
 import QuickCapture from "modules/Tasks/QuickCapture";
 import SummaryCards from "modules/Tasks/SummaryCards";
-import TaskFormDialog from "modules/Tasks/TaskFormDialog";
 import TaskList from "modules/Tasks/TaskList";
 import { emptyTaskForm } from "modules/Tasks/taskFormSchema";
 import {
@@ -27,6 +26,10 @@ import {
 } from "store/tasksSlice";
 import { defaultQuery } from "domain/taskQuery";
 
+// The form pulls in the date picker and date-fns, so it loads the first time a
+// task is opened and then stays mounted for its open and close transitions.
+const TaskFormDialog = lazy(() => import("modules/Tasks/TaskFormDialog"));
+
 const CLOSED = { open: false, mode: "create", values: emptyTaskForm, id: null };
 
 export const TaskBoard = () => {
@@ -41,6 +44,7 @@ export const TaskBoard = () => {
   const summary = useSelector(selectSummary);
 
   const [dialog, setDialog] = useState(CLOSED);
+  const [dialogLoaded, setDialogLoaded] = useState(false);
 
   useEffect(() => {
     dispatch(fetchTasks());
@@ -54,27 +58,25 @@ export const TaskBoard = () => {
     [query]
   );
 
-  const openCreate = useCallback(
-    (values = emptyTaskForm) =>
-      setDialog({ open: true, mode: "create", values, id: null }),
-    []
-  );
+  const openCreate = useCallback((values = emptyTaskForm) => {
+    setDialogLoaded(true);
+    setDialog({ open: true, mode: "create", values, id: null });
+  }, []);
 
-  const openEdit = useCallback(
-    (task) =>
-      setDialog({
-        open: true,
-        mode: "edit",
-        id: task.id,
-        values: {
-          title: task.title,
-          description: task.description,
-          priority: task.priority,
-          deadline: task.deadline,
-        },
-      }),
-    []
-  );
+  const openEdit = useCallback((task) => {
+    setDialogLoaded(true);
+    setDialog({
+      open: true,
+      mode: "edit",
+      id: task.id,
+      values: {
+        title: task.title,
+        description: task.description,
+        priority: task.priority,
+        deadline: task.deadline,
+      },
+    });
+  }, []);
 
   const closeDialog = useCallback(() => setDialog(CLOSED), []);
 
@@ -160,14 +162,18 @@ export const TaskBoard = () => {
         onStatusChange={handleStatusChange}
       />
 
-      <TaskFormDialog
-        open={dialog.open}
-        mode={dialog.mode}
-        initialValues={dialog.values}
-        submitting={mutating}
-        onClose={closeDialog}
-        onSubmit={handleSubmit}
-      />
+      {dialogLoaded && (
+        <Suspense fallback={null}>
+          <TaskFormDialog
+            open={dialog.open}
+            mode={dialog.mode}
+            initialValues={dialog.values}
+            submitting={mutating}
+            onClose={closeDialog}
+            onSubmit={handleSubmit}
+          />
+        </Suspense>
+      )}
     </Box>
   );
 };
