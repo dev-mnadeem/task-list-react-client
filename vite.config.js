@@ -13,7 +13,7 @@ const SRC = fileURLToPath(new URL("./src", import.meta.url));
  * package with the same name ("domain", "config") is never redirected.
  */
 const SRC_ROOTS =
-  /^(App|components|config|domain|modules|routes|services|store|theme)(\/|$)/;
+  /^(App|components|config|domain|mocks|modules|routes|services|store|theme)(\/|$)/;
 
 const srcBaseUrl = () => ({
   name: "src-base-url",
