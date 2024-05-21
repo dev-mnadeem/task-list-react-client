@@ -1,6 +1,5 @@
-import React from "react";
 import { Box, Button, Container, Typography } from "@mui/material";
-import ScienceRoundedIcon from "@mui/icons-material/ScienceRounded";
+import { ScienceRounded as ScienceRoundedIcon } from "@mui/icons-material";
 import { useDispatch } from "react-redux";
 
 import { palette } from "theme";
@@ -33,7 +32,7 @@ export const DemoBanner = () => {
           <ScienceRoundedIcon sx={{ fontSize: 17, color: palette.brand }} />
           <Typography variant="body2" sx={{ color: palette.brandDark, flex: 1 }}>
             <strong>Demo mode.</strong> Tasks are stored in this browser only — set{" "}
-            <code>REACT_APP_API_BASE_URL</code> to talk to a real API.
+            <code>VITE_API_BASE_URL</code> to talk to a real API.
           </Typography>
           <Button
             size="small"

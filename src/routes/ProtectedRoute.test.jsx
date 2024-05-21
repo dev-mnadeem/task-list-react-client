@@ -1,5 +1,5 @@
-import React from "react";
-import { fireEvent, render, screen } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import { ThemeProvider } from "@mui/material/styles";
 import { Provider } from "react-redux";
 import { MemoryRouter } from "react-router-dom";
@@ -25,18 +25,20 @@ beforeEach(() => window.localStorage.clear());
 describe("ProtectedRoute in demo mode", () => {
   it("opens a demo session for a first-time visitor", async () => {
     renderApp();
-    expect(await screen.findByText("Your board")).toBeInTheDocument();
+    expect(
+      await screen.findByRole("heading", { name: "Your board" })
+    ).toBeInTheDocument();
   });
 
   it("stays signed out after Sign out instead of signing straight back in", async () => {
     renderApp();
-    await screen.findByText("Your board");
+    await screen.findByRole("heading", { name: "Your board" });
 
-    fireEvent.click(screen.getByText("Sign out"));
+    await userEvent.click(screen.getByRole("button", { name: "Sign out" }));
 
+    expect(await screen.findByRole("heading", { name: "Sign in" })).toBeInTheDocument();
     expect(
-      await screen.findByText("Pick up your board where you left it.")
-    ).toBeInTheDocument();
-    expect(screen.queryByText("Your board")).not.toBeInTheDocument();
+      screen.queryByRole("heading", { name: "Your board" })
+    ).not.toBeInTheDocument();
   });
 });

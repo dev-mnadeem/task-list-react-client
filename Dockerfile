@@ -1,33 +1,31 @@
 # syntax=docker/dockerfile:1
 
 # ---------- build ----------
-# Create React App inlines every REACT_APP_* value at build time, so the API
-# base URL is a build argument, not a runtime environment variable. Leave it
-# empty and the image ships in demo mode, which is what makes `docker compose
-# up` produce a working board with no backend.
+# Vite inlines every VITE_* value at build time, so the API base URL is a
+# build argument, not a runtime environment variable. Leave it empty and the
+# image ships in demo mode, which is what makes `docker compose up` produce a
+# working board with no backend.
 FROM node:22-alpine AS build
 
 WORKDIR /app
 
-ARG REACT_APP_API_BASE_URL=""
-ARG REACT_APP_DEMO_MODE=""
-ARG REACT_APP_AI_PROVIDER="local"
-ENV REACT_APP_API_BASE_URL=$REACT_APP_API_BASE_URL \
-    REACT_APP_DEMO_MODE=$REACT_APP_DEMO_MODE \
-    REACT_APP_AI_PROVIDER=$REACT_APP_AI_PROVIDER \
-    GENERATE_SOURCEMAP=false \
-    CI=true
+ARG VITE_API_BASE_URL=""
+ARG VITE_DEMO_MODE=""
+ARG VITE_AI_PROVIDER="local"
+ENV VITE_API_BASE_URL=$VITE_API_BASE_URL \
+    VITE_DEMO_MODE=$VITE_DEMO_MODE \
+    VITE_AI_PROVIDER=$VITE_AI_PROVIDER
 
 # Dependencies are installed from the lockfile in their own layer so a source
 # change does not re-resolve the tree.
 COPY package.json package-lock.json ./
-RUN npm ci
+RUN npm ci --no-audit --no-fund
 
 COPY . .
 RUN npm run build
 
 # ---------- runtime ----------
-FROM nginx:1.27-alpine AS runtime
+FROM nginx:1.30-alpine AS runtime
 
 # nginx's own unprivileged user already exists; give it the paths it writes to
 # and move the pid out of /var/run so the container can drop root entirely.
@@ -35,7 +33,7 @@ RUN mkdir -p /var/cache/nginx /var/log/nginx \
     && chown -R nginx:nginx /var/cache/nginx /var/log/nginx /usr/share/nginx/html
 
 COPY docker/nginx.conf /etc/nginx/nginx.conf
-COPY --from=build --chown=nginx:nginx /app/build /usr/share/nginx/html
+COPY --from=build --chown=nginx:nginx /app/dist /usr/share/nginx/html
 
 USER nginx
 

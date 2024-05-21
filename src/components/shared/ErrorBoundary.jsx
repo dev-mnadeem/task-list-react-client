@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import { Component } from "react";
 import { Box, Button, Typography } from "@mui/material";
 
 /**

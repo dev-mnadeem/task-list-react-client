@@ -37,12 +37,12 @@ const seed = [
 ];
 
 const stubRepository = (overrides = {}) => ({
-  list: jest.fn(async () => seed.map((task) => ({ ...task }))),
-  get: jest.fn(async (id) => seed.find((task) => task.id === id)),
-  create: jest.fn(async (input) => ({ ...seed[0], ...input, id: "99" })),
-  update: jest.fn(async (id, input) => ({ ...seed[0], ...input, id })),
-  updateStatus: jest.fn(async (id, status) => ({ ...seed[0], id, status })),
-  remove: jest.fn(async () => undefined),
+  list: vi.fn(async () => seed.map((task) => ({ ...task }))),
+  get: vi.fn(async (id) => seed.find((task) => task.id === id)),
+  create: vi.fn(async (input) => ({ ...seed[0], ...input, id: "99" })),
+  update: vi.fn(async (id, input) => ({ ...seed[0], ...input, id })),
+  updateStatus: vi.fn(async (id, status) => ({ ...seed[0], id, status })),
+  remove: vi.fn(async () => undefined),
   ...overrides,
 });
 
@@ -67,7 +67,7 @@ describe("fetchTasks", () => {
   it("records the error message and empties the list on failure", async () => {
     setTaskRepository(
       stubRepository({
-        list: jest.fn(async () => {
+        list: vi.fn(async () => {
           const error = new Error("boom");
           error.response = { data: { message: "The API is down" } };
           throw error;
@@ -121,7 +121,7 @@ describe("mutations", () => {
   it("clears the mutating flag when a mutation fails", async () => {
     setTaskRepository(
       stubRepository({
-        create: jest.fn(async () => {
+        create: vi.fn(async () => {
           throw new Error("nope");
         }),
       })

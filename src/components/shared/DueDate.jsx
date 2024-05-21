@@ -1,6 +1,5 @@
-import React from "react";
 import { Box } from "@mui/material";
-import EventRoundedIcon from "@mui/icons-material/EventRounded";
+import { EventRounded as EventRoundedIcon } from "@mui/icons-material";
 
 import { parseDay } from "domain/day";
 import { palette } from "theme";

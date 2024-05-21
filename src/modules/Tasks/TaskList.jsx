@@ -1,8 +1,9 @@
-import React from "react";
 import { Box, Pagination, Paper, Typography } from "@mui/material";
-import InboxRoundedIcon from "@mui/icons-material/InboxRounded";
-import SearchOffRoundedIcon from "@mui/icons-material/SearchOffRounded";
-import ErrorOutlineRoundedIcon from "@mui/icons-material/ErrorOutlineRounded";
+import {
+  ErrorOutlineRounded as ErrorOutlineRoundedIcon,
+  InboxRounded as InboxRoundedIcon,
+  SearchOffRounded as SearchOffRoundedIcon,
+} from "@mui/icons-material";
 
 import { palette } from "theme";
 import EmptyState from "components/shared/EmptyState";

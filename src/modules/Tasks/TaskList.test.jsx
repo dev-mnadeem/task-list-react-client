@@ -1,5 +1,4 @@
-import React from "react";
-import { render, screen, waitForElementToBeRemoved } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { ThemeProvider } from "@mui/material/styles";
 
@@ -28,12 +27,12 @@ const renderList = (props = {}) =>
         error={null}
         hasTasks={false}
         isFiltered={false}
-        onPageChange={jest.fn()}
-        onClearFilters={jest.fn()}
-        onCreate={jest.fn()}
-        onEdit={jest.fn()}
-        onDelete={jest.fn()}
-        onStatusChange={jest.fn()}
+        onPageChange={vi.fn()}
+        onClearFilters={vi.fn()}
+        onCreate={vi.fn()}
+        onEdit={vi.fn()}
+        onDelete={vi.fn()}
+        onStatusChange={vi.fn()}
         {...props}
       />
     </ThemeProvider>
@@ -83,7 +82,7 @@ describe("TaskList", () => {
   });
 
   it("advances the status when the row's status button is clicked", async () => {
-    const onStatusChange = jest.fn();
+    const onStatusChange = vi.fn();
     renderList({
       hasTasks: true,
       page: { items: [task()], page: 1, pageCount: 1, total: 1 },
@@ -101,7 +100,7 @@ describe("TaskList", () => {
   });
 
   it("offers edit, the other statuses and delete in the row menu", async () => {
-    const onEdit = jest.fn();
+    const onEdit = vi.fn();
     renderList({
       hasTasks: true,
       page: { items: [task()], page: 1, pageCount: 1, total: 1 },
@@ -118,7 +117,9 @@ describe("TaskList", () => {
 
     await userEvent.click(screen.getByText("Edit task"));
     expect(onEdit).toHaveBeenCalledWith(expect.objectContaining({ id: "1" }));
-    await waitForElementToBeRemoved(() => screen.queryByText("Mark as completed"));
+    await waitFor(() =>
+      expect(screen.queryByText("Mark as completed")).not.toBeInTheDocument()
+    );
   });
 
   it("only paginates when there is more than one page", () => {
@@ -136,12 +137,12 @@ describe("TaskList", () => {
           error={null}
           hasTasks
           isFiltered={false}
-          onPageChange={jest.fn()}
-          onClearFilters={jest.fn()}
-          onCreate={jest.fn()}
-          onEdit={jest.fn()}
-          onDelete={jest.fn()}
-          onStatusChange={jest.fn()}
+          onPageChange={vi.fn()}
+          onClearFilters={vi.fn()}
+          onCreate={vi.fn()}
+          onEdit={vi.fn()}
+          onDelete={vi.fn()}
+          onStatusChange={vi.fn()}
         />
       </ThemeProvider>
     );

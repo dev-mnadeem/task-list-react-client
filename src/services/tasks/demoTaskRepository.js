@@ -32,7 +32,7 @@ const writeAll = (tasks) => {
  * A task repository that never leaves the browser.
  *
  * This is what makes the app runnable — and screenshottable — with no backend:
- * a fresh clone with no `REACT_APP_API_BASE_URL` boots straight into a seeded
+ * a fresh clone with no `VITE_API_BASE_URL` boots straight into a seeded
  * board. State survives a reload through localStorage and `reset()` puts the
  * seed back.
  */

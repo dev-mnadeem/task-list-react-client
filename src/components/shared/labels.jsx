@@ -1,8 +1,9 @@
-import React from "react";
 import { Box, Chip } from "@mui/material";
-import CheckCircleRoundedIcon from "@mui/icons-material/CheckCircleRounded";
-import AutorenewRoundedIcon from "@mui/icons-material/AutorenewRounded";
-import RadioButtonUncheckedRoundedIcon from "@mui/icons-material/RadioButtonUncheckedRounded";
+import {
+  AutorenewRounded as AutorenewRoundedIcon,
+  CheckCircleRounded as CheckCircleRoundedIcon,
+  RadioButtonUncheckedRounded as RadioButtonUncheckedRoundedIcon,
+} from "@mui/icons-material";
 
 import { palette } from "theme";
 import { statusLabel, TaskPriority, TaskStatus } from "domain/task";

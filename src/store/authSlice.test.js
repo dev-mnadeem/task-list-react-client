@@ -12,7 +12,7 @@ import authReducer, {
 const makeStore = () => configureStore({ reducer: { auth: authReducer } });
 
 beforeEach(() => window.localStorage.clear());
-afterEach(() => jest.restoreAllMocks());
+afterEach(() => vi.restoreAllMocks());
 
 describe("authSlice", () => {
   it("starts signed out", () => {
@@ -64,7 +64,7 @@ describe("authSlice", () => {
   it("ends the local session without an error when the server logout fails", async () => {
     const store = makeStore();
     await store.dispatch(signIn({ email: "ada@example.com", password: "whatever" }));
-    jest.spyOn(authRepository, "signOut").mockRejectedValue(new Error("offline"));
+    vi.spyOn(authRepository, "signOut").mockRejectedValue(new Error("offline"));
 
     await store.dispatch(signOut());
 

@@ -34,7 +34,7 @@ describe("parser registry", () => {
   });
 
   it("falls back to the local parser when the provider throws", async () => {
-    const warn = jest.spyOn(console, "warn").mockImplementation(() => {});
+    const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
     const unregister = registerTaskParser({
       name: "flaky",
       isAvailable: () => true,
@@ -53,7 +53,7 @@ describe("parser registry", () => {
   });
 
   it("falls back when the provider is unavailable, without calling it", async () => {
-    const parse = jest.fn();
+    const parse = vi.fn();
     const unregister = registerTaskParser({
       name: "offline",
       isAvailable: () => false,

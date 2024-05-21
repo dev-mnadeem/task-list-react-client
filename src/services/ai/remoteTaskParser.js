@@ -35,7 +35,7 @@ export const coerceRemoteResult = (payload) => {
 /**
  * An OpenAI-compatible chat-completions provider.
  *
- * It is opt-in: without `REACT_APP_AI_ENDPOINT` and `REACT_APP_AI_API_KEY` it
+ * It is opt-in: without `VITE_AI_ENDPOINT` and `VITE_AI_API_KEY` it
  * reports itself unavailable and the registry falls back to the local parser.
  */
 export const remoteTaskParser = {

@@ -6,8 +6,8 @@ services:
       args:
         # Empty means demo mode: a seeded board served from the browser, no API
         # needed. Point it at a running task API to use real data.
-        REACT_APP_API_BASE_URL: ${REACT_APP_API_BASE_URL:-}
-        REACT_APP_AI_PROVIDER: ${REACT_APP_AI_PROVIDER:-local}
+        VITE_API_BASE_URL: ${VITE_API_BASE_URL:-}
+        VITE_AI_PROVIDER: ${VITE_AI_PROVIDER:-local}
     image: task-list-react-client:latest
     ports:
       - "${WEB_PORT:-7131}:8080"

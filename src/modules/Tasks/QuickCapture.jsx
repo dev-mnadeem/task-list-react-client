@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import {
   Box,
   Button,
@@ -8,7 +8,7 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
-import AutoAwesomeRoundedIcon from "@mui/icons-material/AutoAwesomeRounded";
+import { AutoAwesomeRounded as AutoAwesomeRoundedIcon } from "@mui/icons-material";
 
 import { palette } from "theme";
 import { parseTask } from "services/ai";

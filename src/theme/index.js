@@ -33,7 +33,7 @@ const SANS =
 
 export const RADIUS = 12;
 
-const IS_TEST = process.env.NODE_ENV === "test";
+const IS_TEST = import.meta.env.MODE === "test";
 
 export const theme = createTheme({
   palette: {
@@ -132,7 +132,7 @@ export const theme = createTheme({
     },
     // Ripples and transitions fire outside React's act() in jsdom and drown the
     // test output in warnings. They are a browser affordance, so they are only
-    // turned off under Jest.
+    // turned off under test.
     MuiButtonBase: {
       defaultProps: { disableRipple: IS_TEST },
     },

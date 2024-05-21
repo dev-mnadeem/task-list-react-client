@@ -8,7 +8,7 @@ you get a seeded board straight away.
 
 ## What you get on a fresh clone
 
-`REACT_APP_API_BASE_URL` is empty in `.env.example`, and an empty base URL turns
+`VITE_API_BASE_URL` is empty in `.env.example`, and an empty base URL turns
 on **demo mode**: the app swaps its HTTP repositories for in-browser ones backed
 by `localStorage` and seeds nine tasks with deadlines relative to today. Nothing
 to install, nothing to run alongside it.
@@ -46,8 +46,8 @@ description. Two parsers are registered in `src/services/ai/index.js`:
 - **`local`** — the rule parser above. Deterministic, offline, no credentials,
   and unit-tested against a fixed clock in `localTaskParser.test.js`.
 - **`remote`** — an OpenAI-compatible chat-completions endpoint. It reports
-  itself unavailable unless both `REACT_APP_AI_ENDPOINT` and
-  `REACT_APP_AI_API_KEY` are set.
+  itself unavailable unless both `VITE_AI_ENDPOINT` and
+  `VITE_AI_API_KEY` are set.
 
 `parseWithProvider` falls back to `local` whenever the named provider is
 unknown, unavailable, or throws, and the model's reply is run through
@@ -136,7 +136,7 @@ Search matches titles and descriptions, and combines with the status and
 priority filters and a sort key. Filtering and sorting live in
 `src/domain/taskQuery.js` as pure functions and are wrapped in `createSelector`,
 so they run once per `(tasks, query)` pair rather than on every keystroke of
-every row. The list pages at `REACT_APP_PAGE_SIZE` rows (8 by default);
+every row. The list pages at `VITE_PAGE_SIZE` rows (8 by default);
 `paginate()` clamps an out-of-range page instead of rendering an empty one, and
 changing any filter returns you to page one.
 
@@ -161,16 +161,16 @@ offers the same demo account explicitly.
 
 ```bash
 cp .env.example .env
-# REACT_APP_API_BASE_URL=https://your-task-api.example.com
+# VITE_API_BASE_URL=https://your-task-api.example.com
 npm start
 ```
 
 The client expects `POST /login`, `POST /sign_up`, `DELETE /logout` and
-`/api/v1/tasks` with the usual five verbs. Create React App inlines `REACT_APP_*`
+`/api/v1/tasks` with the usual five verbs. Vite inlines `VITE_*`
 values **at build time**, so changing the base URL means a rebuild, not a
 restart — which is why the Docker image takes it as a build argument. Everything
 configurable is read once in `src/config/index.js`; no component reaches into
-`process.env`.
+`import.meta.env`.
 
 ## How the source is arranged
 
@@ -214,7 +214,7 @@ npm run format:check  # Prettier
 
 ## Docker
 
-Multi-stage: `node:22-alpine` builds, `nginx:1.27-alpine` serves. The runtime
+Multi-stage: `node:22-alpine` builds, `nginx:1.30-alpine` serves. The runtime
 stage drops to the `nginx` user, listens on 8080 because a non-root process
 cannot bind below 1024, and the compose service adds `read_only: true`,
 `no-new-privileges` and tmpfs mounts for the paths nginx writes to.
@@ -224,11 +224,11 @@ docker compose up --build          # http://localhost:7131
 WEB_PORT=8000 docker compose up    # somewhere else
 ```
 
-With no `REACT_APP_API_BASE_URL` in the environment the image is built in demo
+With no `VITE_API_BASE_URL` in the environment the image is built in demo
 mode. To bake in a real API:
 
 ```bash
-REACT_APP_API_BASE_URL=https://your-task-api.example.com docker compose up --build
+VITE_API_BASE_URL=https://your-task-api.example.com docker compose up --build
 ```
 
 `nginx.conf` caches hashed bundles for a year, serves `index.html` with

@@ -9,7 +9,7 @@ import {
   REGISTER,
   REHYDRATE,
 } from "redux-persist";
-import storage from "redux-persist/lib/storage";
+import storage from "redux-persist/es/storage";
 
 import { setUnauthorizedHandler } from "services/http/httpClient";
 import authReducer, { sessionExpired } from "store/authSlice";

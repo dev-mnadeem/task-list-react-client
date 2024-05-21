@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import {
   Box,
   IconButton,
@@ -9,9 +9,11 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
-import MoreHorizRoundedIcon from "@mui/icons-material/MoreHorizRounded";
-import EditRoundedIcon from "@mui/icons-material/EditRounded";
-import DeleteOutlineRoundedIcon from "@mui/icons-material/DeleteOutlineRounded";
+import {
+  DeleteOutlineRounded as DeleteOutlineRoundedIcon,
+  EditRounded as EditRoundedIcon,
+  MoreHorizRounded as MoreHorizRoundedIcon,
+} from "@mui/icons-material";
 
 import { palette } from "theme";
 import { statusLabel, TASK_STATUSES, TaskStatus } from "domain/task";

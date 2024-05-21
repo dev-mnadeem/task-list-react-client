@@ -1,7 +1,8 @@
-import React from "react";
 import { Avatar, Box, Button, Container, Typography } from "@mui/material";
-import CheckRoundedIcon from "@mui/icons-material/CheckRounded";
-import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
+import {
+  CheckRounded as CheckRoundedIcon,
+  LogoutRounded as LogoutRoundedIcon,
+} from "@mui/icons-material";
 import { useDispatch, useSelector } from "react-redux";
 
 import { palette } from "theme";

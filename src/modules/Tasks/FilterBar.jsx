@@ -1,7 +1,8 @@
-import React from "react";
 import { Box, Button, InputAdornment, MenuItem, TextField } from "@mui/material";
-import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
-import AddRoundedIcon from "@mui/icons-material/AddRounded";
+import {
+  AddRounded as AddRoundedIcon,
+  SearchRounded as SearchRoundedIcon,
+} from "@mui/icons-material";
 
 import { palette } from "theme";
 import {

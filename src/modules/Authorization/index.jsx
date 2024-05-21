@@ -1,6 +1,6 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { Alert, Box, Button, Divider, Paper, Typography } from "@mui/material";
-import CheckRoundedIcon from "@mui/icons-material/CheckRounded";
+import { CheckRounded as CheckRoundedIcon } from "@mui/icons-material";
 import { Form, Formik } from "formik";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
