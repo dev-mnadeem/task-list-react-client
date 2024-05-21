@@ -1,6 +1,5 @@
+import { addDays, formatDay } from "domain/day";
 import { TaskPriority } from "domain/task";
-
-const DAY_MS = 24 * 60 * 60 * 1000;
 
 const WEEKDAYS = [
   "sunday",
@@ -30,11 +29,6 @@ const MONTHS = [
 const HIGH_WORDS = ["urgent", "asap", "critical", "important", "high priority"];
 const LOW_WORDS = ["whenever", "someday", "low priority", "no rush", "eventually"];
 
-const toIsoDay = (date) => {
-  const local = new Date(date.getTime() - date.getTimezoneOffset() * 60000);
-  return local.toISOString().slice(0, 10);
-};
-
 const startOfDay = (date) => {
   const copy = new Date(date);
   copy.setHours(0, 0, 0, 0);
@@ -47,7 +41,7 @@ const nextWeekday = (from, targetIndex, skipAWeek) => {
   let delta = (targetIndex - base.getDay() + 7) % 7;
   if (delta === 0) delta = 7;
   if (skipAWeek && delta < 7) delta += 7;
-  return new Date(base.getTime() + delta * DAY_MS);
+  return addDays(base, delta);
 };
 
 /**
@@ -61,11 +55,11 @@ const buildDateRules = (now) => [
   },
   {
     pattern: /\b(?:by|on|due)?\s*tomorrow\b/i,
-    resolve: () => new Date(startOfDay(now).getTime() + DAY_MS),
+    resolve: () => addDays(startOfDay(now), 1),
   },
   {
     pattern: /\b(?:by|on|due)?\s*next\s+week\b/i,
-    resolve: () => new Date(startOfDay(now).getTime() + 7 * DAY_MS),
+    resolve: () => addDays(startOfDay(now), 7),
   },
   {
     pattern: /\b(?:by|on|due)?\s*end\s+of\s+(?:the\s+)?month\b/i,
@@ -76,7 +70,7 @@ const buildDateRules = (now) => [
     resolve: (match) => {
       const amount = Number(match[1]);
       const multiplier = match[2].startsWith("week") ? 7 : 1;
-      return new Date(startOfDay(now).getTime() + amount * multiplier * DAY_MS);
+      return addDays(startOfDay(now), amount * multiplier);
     },
   },
   {
@@ -196,7 +190,7 @@ export const parseTaskInput = (input, { now = new Date() } = {}) => {
     if (!match) continue;
     const resolved = rule.resolve(match);
     if (!resolved || Number.isNaN(resolved.getTime())) continue;
-    deadline = toIsoDay(resolved);
+    deadline = formatDay(resolved);
     working = working.replace(match[0], " ");
     hints.push({ field: "deadline", value: deadline, from: match[0].trim() });
     break;

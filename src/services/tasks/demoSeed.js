@@ -1,9 +1,7 @@
+import { dayFromNow } from "domain/day";
 import { TaskPriority, TaskStatus } from "domain/task";
 
 const DAY_MS = 24 * 60 * 60 * 1000;
-
-const isoDay = (offsetDays) =>
-  new Date(Date.now() + offsetDays * DAY_MS).toISOString().slice(0, 10);
 
 /**
  * Seed rows for demo mode. Deadlines are relative to "today" so the board never
@@ -16,7 +14,7 @@ export const buildSeedTasks = () => [
     description: "Numbers are final, just needs the cover slide.",
     priority: TaskPriority.HIGH,
     status: TaskStatus.IN_PROGRESS,
-    deadline: isoDay(1),
+    deadline: dayFromNow(1),
     createdAt: new Date(Date.now() - 3 * DAY_MS).toISOString(),
   },
   {
@@ -25,7 +23,7 @@ export const buildSeedTasks = () => [
     description: "staging.internal expires before the release window.",
     priority: TaskPriority.HIGH,
     status: TaskStatus.PENDING,
-    deadline: isoDay(-2),
+    deadline: dayFromNow(-2),
     createdAt: new Date(Date.now() - 9 * DAY_MS).toISOString(),
   },
   {
@@ -34,7 +32,7 @@ export const buildSeedTasks = () => [
     description: "Cover local setup, seed data and the two flaky tests.",
     priority: TaskPriority.MEDIUM,
     status: TaskStatus.IN_PROGRESS,
-    deadline: isoDay(4),
+    deadline: dayFromNow(4),
     createdAt: new Date(Date.now() - 5 * DAY_MS).toISOString(),
   },
   {
@@ -43,7 +41,7 @@ export const buildSeedTasks = () => [
     description: "Check the cursor encoding and the empty-page case.",
     priority: TaskPriority.MEDIUM,
     status: TaskStatus.PENDING,
-    deadline: isoDay(2),
+    deadline: dayFromNow(2),
     createdAt: new Date(Date.now() - 1 * DAY_MS).toISOString(),
   },
   {
@@ -52,7 +50,7 @@ export const buildSeedTasks = () => [
     description: "Six-month check-up, any afternoon works.",
     priority: TaskPriority.LOW,
     status: TaskStatus.PENDING,
-    deadline: isoDay(11),
+    deadline: dayFromNow(11),
     createdAt: new Date(Date.now() - 2 * DAY_MS).toISOString(),
   },
   {
@@ -61,7 +59,7 @@ export const buildSeedTasks = () => [
     description: "Move to cold storage and drop the shared drive copies.",
     priority: TaskPriority.LOW,
     status: TaskStatus.COMPLETED,
-    deadline: isoDay(-6),
+    deadline: dayFromNow(-6),
     createdAt: new Date(Date.now() - 20 * DAY_MS).toISOString(),
   },
   {
@@ -70,7 +68,7 @@ export const buildSeedTasks = () => [
     description: "Three contrast failures on the settings screen.",
     priority: TaskPriority.HIGH,
     status: TaskStatus.COMPLETED,
-    deadline: isoDay(-1),
+    deadline: dayFromNow(-1),
     createdAt: new Date(Date.now() - 7 * DAY_MS).toISOString(),
   },
   {
@@ -79,7 +77,7 @@ export const buildSeedTasks = () => [
     description: "Two workshop slots plus something that is not a workshop.",
     priority: TaskPriority.MEDIUM,
     status: TaskStatus.PENDING,
-    deadline: isoDay(16),
+    deadline: dayFromNow(16),
     createdAt: new Date(Date.now() - 4 * DAY_MS).toISOString(),
   },
   {
@@ -88,7 +86,7 @@ export const buildSeedTasks = () => [
     description: "Billing renews at the start of next month.",
     priority: TaskPriority.LOW,
     status: TaskStatus.IN_PROGRESS,
-    deadline: isoDay(7),
+    deadline: dayFromNow(7),
     createdAt: new Date(Date.now() - 6 * DAY_MS).toISOString(),
   },
 ];

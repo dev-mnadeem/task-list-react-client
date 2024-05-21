@@ -2,6 +2,7 @@ import React from "react";
 import { Box } from "@mui/material";
 import EventRoundedIcon from "@mui/icons-material/EventRounded";
 
+import { parseDay } from "domain/day";
 import { palette } from "theme";
 
 const DAY_MS = 24 * 60 * 60 * 1000;
@@ -33,7 +34,7 @@ const startOfDay = (date) => {
  */
 export const describeDeadline = (value, now = new Date()) => {
   if (!value) return { text: "No deadline", tone: "muted" };
-  const due = new Date(value);
+  const due = parseDay(value);
   if (Number.isNaN(due.getTime())) return { text: "No deadline", tone: "muted" };
 
   const days = Math.round(

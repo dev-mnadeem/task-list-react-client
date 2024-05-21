@@ -1,3 +1,5 @@
+import { parseDay } from "domain/day";
+
 /**
  * The task vocabulary, in one place.
  *
@@ -99,7 +101,7 @@ export const normaliseTasks = (list) =>
 /** A task is overdue when it has a past deadline and is not finished. */
 export const isOverdue = (task, now = new Date()) => {
   if (!task?.deadline || task.status === TaskStatus.COMPLETED) return false;
-  const due = new Date(task.deadline);
+  const due = parseDay(task.deadline);
   if (Number.isNaN(due.getTime())) return false;
   const endOfDue = new Date(due);
   endOfDue.setHours(23, 59, 59, 999);

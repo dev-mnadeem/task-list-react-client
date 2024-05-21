@@ -5,6 +5,7 @@ import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 
+import { formatDay, parseDay } from "domain/day";
 import { priorityLabel, TASK_PRIORITIES } from "domain/task";
 
 const Label = ({ children, htmlFor }) => (
@@ -95,7 +96,7 @@ export const DeadlineField = ({ name, label = "Deadline" }) => (
   <Field name={name}>
     {({ field, form, meta }) => {
       const showError = Boolean(meta.touched && meta.error);
-      const value = field.value ? new Date(field.value) : null;
+      const value = field.value ? parseDay(field.value) : null;
       return (
         <Box sx={{ width: "100%" }}>
           <Label htmlFor={name}>{label}</Label>
@@ -106,9 +107,7 @@ export const DeadlineField = ({ name, label = "Deadline" }) => (
               onChange={(next) =>
                 form.setFieldValue(
                   name,
-                  next && !Number.isNaN(next.getTime())
-                    ? `${next.getFullYear()}-${String(next.getMonth() + 1).padStart(2, "0")}-${String(next.getDate()).padStart(2, "0")}`
-                    : null
+                  next && !Number.isNaN(next.getTime()) ? formatDay(next) : null
                 )
               }
               slotProps={{
