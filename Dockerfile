@@ -27,10 +27,10 @@ RUN npm run build
 # ---------- runtime ----------
 FROM nginx:1.30-alpine AS runtime
 
-# nginx's own unprivileged user already exists; give it the paths it writes to
-# and move the pid out of /var/run so the container can drop root entirely.
-RUN mkdir -p /var/cache/nginx /var/log/nginx \
-    && chown -R nginx:nginx /var/cache/nginx /var/log/nginx /usr/share/nginx/html
+# nginx's own unprivileged user already exists. nginx.conf puts the pid and
+# every temp path under /tmp and logs to stdout/stderr, so the container can
+# drop root entirely and run with a read-only root filesystem.
+RUN chown -R nginx:nginx /usr/share/nginx/html
 
 COPY docker/nginx.conf /etc/nginx/nginx.conf
 COPY --from=build --chown=nginx:nginx /app/dist /usr/share/nginx/html

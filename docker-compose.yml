@@ -13,10 +13,11 @@ services:
       - "${WEB_PORT:-7131}:8080"
     restart: unless-stopped
     read_only: true
+    # Docker mounts a tmpfs root-owned 0755, except /tmp, which gets 1777.
+    # nginx.conf keeps the pid and temp files in /tmp and logs to stdout, so
+    # that is the only writable path the unprivileged nginx user needs.
     tmpfs:
       - /tmp
-      - /var/cache/nginx
-      - /var/log/nginx
     security_opt:
       - no-new-privileges:true
     healthcheck:
