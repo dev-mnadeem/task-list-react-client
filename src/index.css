@@ -1,0 +1,25 @@
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.875em;
+  background: rgba(16, 24, 40, 0.06);
+  border-radius: 4px;
+  padding: 0.1em 0.35em;
+}
+
+/* Keyboard focus stays visible; pointer focus does not draw a ring. */
+:focus-visible {
+  outline: 2px solid #4b49d6;
+  outline-offset: 2px;
+}
