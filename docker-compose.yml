@@ -1,0 +1,27 @@
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        # Empty means demo mode: a seeded board served from the browser, no API
+        # needed. Point it at a running task API to use real data.
+        REACT_APP_API_BASE_URL: ${REACT_APP_API_BASE_URL:-}
+        REACT_APP_AI_PROVIDER: ${REACT_APP_AI_PROVIDER:-local}
+    image: task-list-react-client:latest
+    ports:
+      - "${WEB_PORT:-7131}:8080"
+    restart: unless-stopped
+    read_only: true
+    tmpfs:
+      - /tmp
+      - /var/cache/nginx
+      - /var/log/nginx
+    security_opt:
+      - no-new-privileges:true
+    healthcheck:
+      test: ["CMD", "wget", "-q", "-O", "/dev/null", "http://127.0.0.1:8080/"]
+      interval: 30s
+      timeout: 3s
+      retries: 3
+      start_period: 5s
