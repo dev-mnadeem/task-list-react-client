@@ -248,3 +248,7 @@ REACT_APP_API_BASE_URL=https://your-task-api.example.com docker compose up --bui
   because there is nothing to check them against.
 - **No end-to-end tests.** The screenshots under `docs/screenshots/` were taken
   with Playwright against the dev server, but that script is not checked in.
+
+## Author
+
+[**Muhammad Nadeem**](https://github.com/dev-mnadeem)
